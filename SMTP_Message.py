@@ -21,7 +21,7 @@ msg['Subject'] = raw_input("Enter the subject of your email: ")
 
 # Run the main program
 try:
-	smtpObj = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+	smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
 except:
 	print("Cannot make connection to gmail SMTP server on port 587")
 	sys.exit()
@@ -30,7 +30,14 @@ except:
 try:
 	smtpObj.ehlo()
 except:
-	print("SMTP Server is not responding.\nTry annother time.")
+	print("ERROR: SMTP Server is not responding.\nTry annother time.")
+	sys.exit()
+
+# Add TLS Encryption
+try:
+	smtpObj.starttls()
+except:
+	print("ERROR: Cannot Apply TLS to Session, Now Exiting.")
 	sys.exit()
 
 # Login
