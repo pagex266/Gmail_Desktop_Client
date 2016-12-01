@@ -1,14 +1,16 @@
+#!/Library/Frameworks/Python.framework/Versions/2.7/bin/python
 '''
 Name: Grant Page
 CS 5651 Final Project
 Date: Wednessday, May 4th 2016
 '''
 
-# Import Python Packages
-import imapclient
+# Add Imports
 import imaplib
+import imapclient
 import pyzmail
 import os
+import sys
 
 def Get_Messages(imapObj, UID_dict):
 	# Place a size limit
@@ -24,6 +26,7 @@ def Get_Messages(imapObj, UID_dict):
 
 	rawMessages = imapObj.fetch(UIDs, ['BODY[]'])
 
+	print("\nLoading...")
 	# List the list each UID along with it's subject and sender
 	for UID in UIDs:
 		try:
@@ -52,13 +55,20 @@ UserName = UserName + "@gmail.com"
 Password = raw_input("Enter your Gmail Password: ")
 
 # Set up a imapObj
-imapObj = imapclient.IMAPClient('imap.gmail.com', ssl=True)
+try:
+	imapObj = imapclient.IMAPClient('imap.gmail.com', ssl=True)
+except:
+	print("Cannot connect to imap.gmail.com, try again later")
+	sys.exit()
 
 # Loggin into the IMAP Server
-imapObj.login(UserName, Password)
+try:
+	imapObj.login(UserName, Password)
+except:
+	print("UserName or Password Incorrect.\nMake sure you are using 2-Step Verification (see README for more info).")
 
 # Selecting a Folder
-imapObj.select_folder('INBOX', readonly=True) 
+imapObj.select_folder('INBOX', readonly=True)
 
 # Initialize the dictionary
 UID_DICT = dict()
@@ -80,8 +90,8 @@ while veiwing:
 		pass
 
 	# Ask the user if they wish to do another search
-	answer = raw_input("View another message? Yes/No: ")
-	if (answer != 'Yes' or answer != 'Y'):
+	answer = raw_input("View another message?(y/n): ")
+	if (answer != 'Y' or answer != 'y'):
 		veiwing = False
 
 # Close the connection

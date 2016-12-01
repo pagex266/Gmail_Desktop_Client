@@ -1,3 +1,4 @@
+#!/Library/Frameworks/Python.framework/Versions/2.7/bin/python
 '''
 Name: Grant Page
 CS 5651 Final Project
@@ -14,26 +15,31 @@ f = open('message.txt', 'r')
 msg = MIMEText(f.read())
 msg['From'] = raw_input("Enter your Gmail UserName: ")
 msg['From'] = msg['From'] + "@gmail.com"
-myPass = raw_input("Enter your Gmail Password: ")
+myPass = raw_input("Enter your Password (generated in App passwords): ")
 msg['To'] = raw_input("Enter the email address you wish to send to: ")
 msg['Subject'] = raw_input("Enter the subject of your email: ")
 
 # Run the main program
 try:
-	smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
+	smtpObj = smtplib.SMTP_SSL('smtp.gmail.com', 465)
 except:
 	print("Cannot make connection to gmail SMTP server on port 587")
 	sys.exit()
-# Send a basic hello message to the server
-smtpObj.ehlo()
-# Encrypt the Email. SMTP -> SMTPS
-smtpObj.starttls()
+
+# Make a connection with the server
+try:
+	smtpObj.ehlo()
+except:
+	print("SMTP Server is not responding.\nTry annother time.")
+	sys.exit()
+
 # Login
 try:
 	smtpObj.login(msg['From'], myPass)
 except:
-	print("Cannot login. Please read README and/or correct username and/or password")
+	print("Incorrect username or password.\nMake sure you are using 2-Step Verification (see README for more info)")
 	sys.exit()
+
 # Send the message
 try:
 	smtpObj.sendmail(msg['From'], msg['To'], msg.as_string())

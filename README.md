@@ -19,7 +19,9 @@ The Content of the file message.txt will be the body of the Email message you wi
 ### INBOX cache
 the file INBOX.txt will be generated whenever you run get_IMAP.py, This file is the result of iterating through the your gmail INBOX and appendnding the results to a file. The file is ordered from least recent at the top to most recent at the bottom
 
-### Configure Gmail account
-You will probably notice that the Gmail application will not initialy allow you to send the your mail. To configure your account to do so please go to: https://www.google.com/settings/security/lesssecureapps and TOGGLE ON to do so.
+### Set up 2-Step Verification
+This application requires you enable Two-Factor-Authentication.
+Visit: https://myaccount.google.com/security and enable 2-Step Verification.
 
-**_After using the Desktop Client go back to link and TOGGLE OFF to keep your account secure from malicous software_**
+### Add Password for application
+To connect to the application you will need to add a password. https://security.google.com/settings/security/apppasswords Under The first category select 'custom' and then click 'generated'. The generated password will be your password for your gmail account for these programs.
